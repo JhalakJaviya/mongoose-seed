@@ -6,6 +6,7 @@
 var _ = require('lodash'),
     async = require('async'),
     mongoose = require('mongoose'),
+    autoIncrement = require('mongoose-auto-increment'),
     chalk = require('chalk'),
     path = require('path');
 
@@ -46,10 +47,12 @@ Seeder.prototype.connect = function(...params) {
     } else {
         if (opts) {
             mongoose.connect(db, opts, function (err) {
+                autoIncrement.initialize(mongoose.connection);
                 afterConnect(_this, err, cb);
             });
         } else {
             mongoose.connect(db, function (err) {
+                autoIncrement.initialize(mongoose.connection);
                 afterConnect(_this, err, cb);
             });
         }
